@@ -19,5 +19,6 @@ generate-api-client: clean-api-client
 
 test:
 	@echo "Running tests..."
+	cd packages/f1r3sky-wallet-sdk && \
 	npm run test
 	@echo "Done."
