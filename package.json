@@ -2,10 +2,17 @@
     "name": "f1r3sky-wallet-sdk",
     "private": false,
     "scripts": {
-        "test": "cd packages/f1r3sky-wallet-sdk && npm run test"
+        "test": "cd packages/f1r3sky-wallet-sdk && npm run test",
+        "prepare": "husky",
+        "commit": "commit"
     },
     "workspaces": [
         "packages/embers_api",
         "packages/f1r3sky-wallet-sdk"
-    ]
+    ],
+    "devDependencies": {
+        "@commitlint/cli": "^19.8.1",
+        "@commitlint/config-conventional": "^19.8.1",
+        "husky": "^9.1.7"
+    }
 }
