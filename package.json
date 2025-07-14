@@ -1,0 +1,8 @@
+{
+    "name": "f1r3sky-wallet-sdk",
+    "private": false,
+    "workspaces": [
+        "packages/embers_api",
+        "packages/f1r3sky-wallet-sdk"
+    ]
+}
