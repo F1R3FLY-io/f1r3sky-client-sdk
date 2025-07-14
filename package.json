@@ -1,6 +1,9 @@
 {
     "name": "f1r3sky-wallet-sdk",
     "private": false,
+    "scripts": {
+        "test": "cd packages/f1r3sky-wallet-sdk && npm run test"
+    },
     "workspaces": [
         "packages/embers_api",
         "packages/f1r3sky-wallet-sdk"
