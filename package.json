@@ -1,18 +1,54 @@
 {
-    "name": "f1r3sky-wallet-sdk",
+    "name": "f1r3sky-client-sdk",
+    "version": "0.0.0",
     "private": false,
-    "scripts": {
-        "test": "cd packages/f1r3sky-wallet-sdk && npm run test",
-        "prepare": "husky",
-        "commit": "commit"
+    "main": "src/index.ts",
+    "description": "A set of functions for working with wallets and contracts on the blockchain",
+    "author": "Denys Bushualik <denys.b@devbrother.com>",
+    "license": "MIT",
+    "type": "module",
+    "homepage": "https://github.com/F1R3FLY-io/f1r3sky-client-sdk#readme",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/F1R3FLY-io/f1r3sky-client-sdk.git"
     },
-    "workspaces": [
-        "packages/embers_api",
-        "packages/f1r3sky-wallet-sdk"
+    "keywords": [
+        "F1r3Sky",
+        "Wallet",
+        "Blockchain",
+        "SmartContracts"
     ],
+    "bugs": {
+        "url": "https://github.com/F1R3FLY-io/f1r3sky-client-sdk/issues"
+    },
+    "scripts": {
+        "test": "jest",
+        "prepare": "husky",
+        "commit": "commit",
+        "mock-server": "node --experimental-transform-types tests/mock-server.ts",
+        "coverage": "jest --coverage"
+    },
     "devDependencies": {
         "@commitlint/cli": "^19.8.1",
         "@commitlint/config-conventional": "^19.8.1",
-        "husky": "^9.1.7"
+        "@jest/globals": "^30.0.4",
+        "@types/express": "^5.0.3",
+        "@types/jest": "^30.0.0",
+        "@types/node": "^24.0.14",
+        "@types/secp256k1": "^4.0.6",
+        "express": "^5.1.0",
+        "husky": "^9.1.7",
+        "jest": "30.0.4",
+        "msw": "^2.10.4",
+        "openapi-backend": "^5.13.0",
+        "ts-jest": "^29.4.0",
+        "ts-node": "^10.9.2",
+        "typescript": "^5.8.3"
+    },
+    "dependencies": {
+        "@scure/base": "1.2.6",
+        "blakejs": "1.2.1",
+        "keccak256": "1.0.6",
+        "secp256k1": "^5.0.1"
     }
 }
