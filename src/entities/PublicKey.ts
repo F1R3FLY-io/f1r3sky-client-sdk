@@ -1,4 +1,4 @@
-import keccak256 from "keccak256";
+const createKeccakHash = require("keccak");
 import secp256k1 from "secp256k1";
 
 export class PublicKey {
@@ -17,7 +17,9 @@ export class PublicKey {
     }
 
     public getHash(): string {
-        return keccak256(this.value.slice(1, -40)).toString().toUpperCase()
+        const value = this.value.slice(1, -40);
+        const newLocal = createKeccakHash('keccak256').update(Buffer.from(value)).digest('hex');
+        return newLocal.toUpperCase()
     }
 
     private toString() { }

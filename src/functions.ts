@@ -4,7 +4,8 @@ import { blake2b, blake2bHex } from "blakejs"
 import { PrivateKey } from "./entities/PrivateKey"
 import { PublicKey } from "./entities/PublicKey";
 import { Address } from "./entities/Address";
-import keccak256 from "keccak256";
+
+const creawteKeccakHash = require("keccak");
 
 
 export const F1R3CAP_TOKE_ID = '000000'
@@ -60,7 +61,8 @@ export function sign(payload: Uint8Array, key: PrivateKey): { sigAlgorithm: "sec
  */
 export function getAddressFrom(publicKey: PublicKey): Address {
     const publicKeyHash = publicKey.getHash()
-    const ethHash = keccak256(base16.decode(publicKeyHash)).toString().toUpperCase()
+    const decodedPublicKeysHash = base16.decode(publicKeyHash)
+    const ethHash = creawteKeccakHash('keccak256').update(Buffer.from(decodedPublicKeysHash)).digest('hex').toUpperCase()
 
     const payload = `${F1R3CAP_TOKE_ID}${F1R3CAP_VERSION}${ethHash}`
 

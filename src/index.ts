@@ -21,6 +21,10 @@ export async function getWalletState(address: Address) {
     return client.apiWalletsAddressStateGet({ address: address.toString() })
 }
 
+export type PreparePostCallback = (value: { transferReq: { from: string, to: string, amount: number, description: string } }) => Promise<{ contract: Array<number> }>;
+
+export type TransferSendCallback = (value: { signedContract: { contract: Array<number>, sig: Array<number>, sigAlgorithm: string, deployer: Array<number> } }) => Promise<void>;
+
 /**
  * Transfers money from one address to another.
  * This function prepares a transfer contract, signs it with the provided private key,
@@ -32,23 +36,21 @@ export async function getWalletState(address: Address) {
  * @param description - A description of the transfer.
  * @returns A promise that resolves when the transfer is sent.
  */
-export async function transferMoney(privateKey: PrivateKey, toAddress: Address, amount: Amount, description: Description) {
-    const configuration = new Configuration();
-    const client = new WalletsApi(configuration);
+export const transferMoney = (preparePostCallback: PreparePostCallback, transferSendCallback: TransferSendCallback) => async (privateKey: PrivateKey, toAddress: Address, amount: Amount, description: Description) => {
 
-
-    const contract = await client.apiWalletsTransferPreparePost({
+    const response = await preparePostCallback({
         transferReq: {
             from: generateAddressFrom(privateKey).toString(),
             to: toAddress.toString(),
             amount: amount.getValue(),
             description: description.getValue(),
         }
-    }).then(({ contract }) => new Uint8Array(contract));
+    });
+    const contract = new Uint8Array(response.contract);
 
     const signedContract = sign(contract, privateKey);
 
-    return client.apiWalletsTransferSendPost({
+    const result = await transferSendCallback({
         signedContract: {
             contract: Array.from(signedContract.signature),
             sig: Array.from(signedContract.signature),
@@ -56,4 +58,6 @@ export async function transferMoney(privateKey: PrivateKey, toAddress: Address, 
             deployer: Array.from(signedContract.deployer),
         },
     });
+
+    return result;
 }
