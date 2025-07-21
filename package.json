@@ -26,7 +26,8 @@
         "prepare": "husky",
         "commit": "commit",
         "mock-server": "node --experimental-transform-types tests/mock-server.ts",
-        "coverage": "jest --coverage"
+        "coverage": "jest --coverage",
+        "mocks": "counterfact ./embers-api-schema.json mocks"
     },
     "devDependencies": {
         "@commitlint/cli": "^19.8.1",
@@ -36,6 +37,7 @@
         "@types/jest": "^30.0.0",
         "@types/node": "^24.0.14",
         "@types/secp256k1": "^4.0.6",
+        "counterfact": "^1.4.1",
         "express": "^5.1.0",
         "husky": "^9.1.7",
         "jest": "30.0.4",

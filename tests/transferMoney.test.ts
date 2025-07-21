@@ -1,9 +1,14 @@
-import { assert } from "console";
-import { Address, PrivateKey, transferMoney, TransferSendCallback } from "../src";
+import { Address, PrivateKey, transferMoney } from "../src";
+import { HTTPHeaders } from "../src/api-client";
 import { Amount } from "../src/entities/Amount";
 import { Description } from "../src/entities/Description";
+import { Wallet } from "../src/entities/Wallet";
 
-test('transferMoney function', async () => {
+beforeEach(() => {
+    jest.clearAllMocks();
+});
+
+test('transferMoney low level function', async () => {
     const privateKey = PrivateKey.new();
     const toAddress = Address.fromString("1111NypGkNrhxpLKFwiZ8gLKmiwLQUyzuEe1p3nEKQCSKMvd1YHY3");
     const amount = Amount.tryFrom(1000);
@@ -14,7 +19,7 @@ test('transferMoney function', async () => {
     });
     const mockTransferSendCallback = jest.fn();
 
-    await transferMoney(mockPreparePostCallback, mockTransferSendCallback)(privateKey, toAddress, amount, description);
+    await transferMoney(privateKey, toAddress, amount, description, mockPreparePostCallback, mockTransferSendCallback);
 
     expect(mockPreparePostCallback).toHaveBeenCalledWith({
         transferReq: {
@@ -34,4 +39,22 @@ test('transferMoney function', async () => {
             deployer: expect.arrayOf(expect.any(Number)),
         })
     });
-}); 
+});
+
+test('transfer High level functions', async () => {
+    let privateKey = PrivateKey.new();
+
+    let client = new Wallet({
+        host: 'http://localhost',
+        port: 3100,
+        privateKey: privateKey,
+        headers: {} as HTTPHeaders
+    });
+
+    const address = Address.fromString("1111NypGkNrhxpLKFwiZ8gLKmiwLQUyzuEe1p3nEKQCSKMvd1YHY3");
+    const amount = Amount.tryFrom(1000);
+    const description = Description.tryFromString("This is a test transfer with a valid description.");
+    let result = client.sendMoney(address, amount, description);
+
+    expect(result).resolves.toBeTruthy();
+});

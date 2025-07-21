@@ -29,14 +29,14 @@ export type TransferSendCallback = (value: { signedContract: { contract: Array<n
  * Transfers money from one address to another.
  * This function prepares a transfer contract, signs it with the provided private key,
  * and sends the signed contract to the wallet API.
- *
+ * 
  * @param privateKey - The private key of the sender's wallet.
  * @param toAddress - The address of the recipient.
  * @param amount - The amount of money to transfer.
  * @param description - A description of the transfer.
  * @returns A promise that resolves when the transfer is sent.
  */
-export const transferMoney = (preparePostCallback: PreparePostCallback, transferSendCallback: TransferSendCallback) => async (privateKey: PrivateKey, toAddress: Address, amount: Amount, description: Description) => {
+export async function transferMoney(privateKey: PrivateKey, toAddress: Address, amount: Amount, description: Description, preparePostCallback: PreparePostCallback, transferSendCallback: TransferSendCallback) {
 
     const response = await preparePostCallback({
         transferReq: {
@@ -50,7 +50,7 @@ export const transferMoney = (preparePostCallback: PreparePostCallback, transfer
 
     const signedContract = sign(contract, privateKey);
 
-    const result = await transferSendCallback({
+    await transferSendCallback({
         signedContract: {
             contract: Array.from(signedContract.signature),
             sig: Array.from(signedContract.signature),
@@ -59,5 +59,5 @@ export const transferMoney = (preparePostCallback: PreparePostCallback, transfer
         },
     });
 
-    return result;
+    return true;
 }

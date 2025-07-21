@@ -18,6 +18,11 @@ Or, if using yarn:
 yarn add f1r3sky-client-sdk
 ```
 
+## Usage
+```ts
+    
+```
+
 ## Testing
 
 To run tests:
