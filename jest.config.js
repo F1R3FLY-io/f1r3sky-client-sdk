@@ -8,6 +8,9 @@ export default {
     transformIgnorePatterns: [
         "/node_modules/(?!@noble/secp256k1)", // let jest transpile it
     ],
+    coveragePathIgnorePatterns: [
+        "<rootDir>/src/api-client",
+    ],
     transform: {
         ...tsJestTransformCfg,
     },
