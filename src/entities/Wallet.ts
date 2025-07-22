@@ -1,5 +1,6 @@
 import { transferMoney } from "..";
 import { Configuration, HTTPHeaders, WalletsApi } from "../api-client";
+import { generateAddressFrom } from "../functions";
 import { Address } from "./Address";
 import { Amount } from "./Amount";
 import { Description } from "./Description";
@@ -23,6 +24,18 @@ export class Wallet {
     }
 
     async sendMoney(to: Address, amount: Amount, description: Description) {
-        return await transferMoney(this.privateKey, to, amount, description, args => this.wallet.apiWalletsTransferPreparePost(args), args => this.wallet.apiWalletsTransferSendPost(args));
+        return await transferMoney(
+            this.privateKey,
+            to,
+            amount,
+            description,
+            args => this.wallet.apiWalletsTransferPreparePost(args),
+            args => this.wallet.apiWalletsTransferSendPost(args));
+    }
+
+    async getWalletState() {
+        const address = generateAddressFrom(this.privateKey);
+
+        return await this.wallet.apiWalletsAddressStateGet({ address: address.toString() });
     }
 }

@@ -25,7 +25,6 @@
         "test": "jest",
         "prepare": "husky",
         "commit": "commit",
-        "mock-server": "node --experimental-transform-types tests/mock-server.ts",
         "coverage": "jest --coverage",
         "mocks": "counterfact ./embers-api-schema.json mocks"
     },
