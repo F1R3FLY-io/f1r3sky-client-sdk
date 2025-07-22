@@ -19,8 +19,39 @@ yarn add f1r3sky-client-sdk
 ```
 
 ## Usage
-```ts
-    
+### send money example
+```typescript
+// Initialize a new wallet with a private key
+const privateKey = PrivateKey.new();
+const client = new Wallet({
+    host: 'http://localhost',
+    port: 3100,
+    privateKey: privateKey,
+    headers: {} as HTTPHeaders
+});
+
+// Create a transfer
+const recipientAddress = Address.fromString("1111NypGkNrhxpLKFwiZ8gLKmiwLQUyzuEe1p3nEKQCSKMvd1YHY3");
+const transferAmount = Amount.tryFrom(1000);
+const transferDescription = Description.tryFromString("This is a test transfer with a valid description.");
+
+// Send the money
+const result = client.sendMoney(recipientAddress, transferAmount, transferDescription);
+```
+
+### Get wallet state example
+```typescript
+// Initialize a new wallet with a private key
+const privateKey = PrivateKey.new();
+const client = new Wallet({
+    host: 'http://localhost',
+    port: 3100,
+    privateKey: privateKey,
+    headers: {} as HTTPHeaders
+});
+
+// Get the wallet state
+const walletState = await client.getWalletState();
 ```
 
 ## Testing
